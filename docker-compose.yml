@@ -11,8 +11,6 @@ services:
       - "1880:1880"
     networks:
       - antilednet
-    depends_on:
-      - redis
     volumes:
       - ./node-red-core:/data 
     restart: always
