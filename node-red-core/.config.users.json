@@ -36,7 +36,7 @@
                 "welcome": "4.0.3"
             }
         },
-        "menu-deploymenu-item-flow": false,
-        "menu-deploymenu-item-full": true
+        "menu-deploymenu-item-flow": true,
+        "menu-deploymenu-item-full": false
     }
 }

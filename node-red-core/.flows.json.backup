@@ -6,5 +6,51 @@
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "75cc8188a8368282",
+        "type": "http in",
+        "z": "c76202b81fd3e5fc",
+        "name": "",
+        "url": "/test",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 460,
+        "y": 220,
+        "wires": [
+            [
+                "3a6ad779f24ad5c6",
+                "11be3b9912294c98"
+            ]
+        ]
+    },
+    {
+        "id": "3a6ad779f24ad5c6",
+        "type": "debug",
+        "z": "c76202b81fd3e5fc",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "11be3b9912294c98",
+        "type": "http response",
+        "z": "c76202b81fd3e5fc",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 520,
+        "y": 280,
+        "wires": []
     }
 ]
