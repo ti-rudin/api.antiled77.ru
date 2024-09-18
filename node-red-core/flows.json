@@ -1,0 +1,1008 @@
+[
+    {
+        "id": "c81e37dab668f210",
+        "type": "tab",
+        "label": "api.ti-agro",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f8a5c66461864831",
+        "type": "group",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "style": {
+            "label": true,
+            "fill": "#3f5787",
+            "fill-opacity": "0.37"
+        },
+        "nodes": [
+            "6eeb48f31cdc5453",
+            "cc6dddd66c6674e8",
+            "3b0849514abc86d6",
+            "eebc64656127b52b"
+        ],
+        "x": 334,
+        "y": 339,
+        "w": 372,
+        "h": 122
+    },
+    {
+        "id": "f120eab2.0a60a8",
+        "type": "redis-config",
+        "name": "redis:6379",
+        "options": "redis://:YzRAdGgkFg@redis:6379",
+        "cluster": false,
+        "optionsType": "str"
+    },
+    {
+        "id": "c8ad7163e050dfe6",
+        "type": "telegram bot",
+        "botname": "TiAgroBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "048399e73138354b",
+        "type": "graphql-server",
+        "name": "",
+        "endpoint": "http://83.69.248.139:1337/graphql",
+        "token": ""
+    },
+    {
+        "id": "7b940e6ce5fb40c7",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "start onload",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "16a195eac53391a8"
+            ]
+        ]
+    },
+    {
+        "id": "b8dd96d5d9b54edd",
+        "type": "function",
+        "z": "c81e37dab668f210",
+        "name": "Start notify",
+        "func": "let guidenv = env.get(\"GOOGLEUID\");\nlet admin_chatid = env.get(\"CHATID\");\n\nglobal.set(\"guid\", guidenv);\nglobal.set(\"admin_chatid\", admin_chatid);\n\nlet tgmsg = \"Старт NR - \" + msg.payload;\n\n\nmsg = {};\nmsg.payload = {tgmsg};\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "642ebd6d0bd5aa4a"
+            ]
+        ]
+    },
+    {
+        "id": "642ebd6d0bd5aa4a",
+        "type": "redis-out",
+        "z": "c81e37dab668f210",
+        "server": "f120eab2.0a60a8",
+        "command": "publish",
+        "name": "",
+        "topic": "tgpost",
+        "obj": true,
+        "x": 690,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "16a195eac53391a8",
+        "type": "exec",
+        "z": "c81e37dab668f210",
+        "command": "hostname",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 320,
+        "y": 140,
+        "wires": [
+            [
+                "b8dd96d5d9b54edd",
+                "406958bedb4b2b98"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e9dc49b211fc6147",
+        "type": "redis-instance",
+        "z": "c81e37dab668f210",
+        "server": "f120eab2.0a60a8",
+        "name": "",
+        "topic": "redis",
+        "location": "flow",
+        "x": 110,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "650f7c70b4d8e0c3",
+        "type": "http in",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "url": "/test",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 900,
+        "y": 320,
+        "wires": [
+            [
+                "0d2f6a60c2d917ac",
+                "97d50ce8317dc433"
+            ]
+        ]
+    },
+    {
+        "id": "072de13cc5b05774",
+        "type": "http response",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1200,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "0d2f6a60c2d917ac",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3da56425b8be2b79",
+        "type": "http in",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "url": "/hello",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 870,
+        "y": 640,
+        "wires": [
+            [
+                "d7e3c8f7bf3c0b43",
+                "2856f020745324d9"
+            ]
+        ]
+    },
+    {
+        "id": "d7e3c8f7bf3c0b43",
+        "type": "function",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "func": "msg.payload = {\n    r: msg.payload,\n    chatId: msg.payload.id,\n    type: \"message\",\n    content: \"Здравствуйте \" + msg.payload.first_name +\"!. Вы успешно авторизовались на сайте ti-agro.ru.\"\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 640,
+        "wires": [
+            [
+                "5d7783484202dae0",
+                "95c5b462864b9a94"
+            ]
+        ]
+    },
+    {
+        "id": "2856f020745324d9",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "1acabf937bf8e64f",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "6eeb48f31cdc5453",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "g": "f8a5c66461864831",
+        "name": " stop",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "reset",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 630,
+        "y": 380,
+        "wires": [
+            [
+                "cc6dddd66c6674e8"
+            ]
+        ]
+    },
+    {
+        "id": "cc6dddd66c6674e8",
+        "type": "redis-out",
+        "z": "c81e37dab668f210",
+        "g": "f8a5c66461864831",
+        "server": "f120eab2.0a60a8",
+        "command": "publish",
+        "name": "",
+        "topic": "stop",
+        "obj": false,
+        "x": 630,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "3b0849514abc86d6",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "g": "f8a5c66461864831",
+        "name": "start",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 430,
+        "y": 380,
+        "wires": [
+            [
+                "eebc64656127b52b"
+            ]
+        ]
+    },
+    {
+        "id": "eebc64656127b52b",
+        "type": "redis-out",
+        "z": "c81e37dab668f210",
+        "g": "f8a5c66461864831",
+        "server": "f120eab2.0a60a8",
+        "command": "publish",
+        "name": "",
+        "topic": "start",
+        "obj": false,
+        "x": 430,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "96ec3a2438489d5b",
+        "type": "telegram receiver",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "bot": "c8ad7163e050dfe6",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 1040,
+        "y": 560,
+        "wires": [
+            [
+                "5d7783484202dae0"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5d7783484202dae0",
+        "type": "telegram sender",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "bot": "c8ad7163e050dfe6",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1260,
+        "y": 640,
+        "wires": [
+            [
+                "1acabf937bf8e64f"
+            ]
+        ]
+    },
+    {
+        "id": "406958bedb4b2b98",
+        "type": "function",
+        "z": "c81e37dab668f210",
+        "name": "start chat bot",
+        "func": "msg.payload = {\n    chatId: env.get(\"CHATID\"),\n    type: \"message\",\n    content: \"Старт бота ti-agro.ru на хосте -\" + msg.payload\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "cae5f305bace5634"
+            ]
+        ]
+    },
+    {
+        "id": "cae5f305bace5634",
+        "type": "telegram sender",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "bot": "c8ad7163e050dfe6",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 740,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "27dc90702ee12559",
+        "type": "http in",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "url": "/testpost",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 920,
+        "y": 420,
+        "wires": [
+            [
+                "f7cba25122832e1b",
+                "c65a0b823afac46d"
+            ]
+        ]
+    },
+    {
+        "id": "f7cba25122832e1b",
+        "type": "http response",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 900,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c65a0b823afac46d",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "97d50ce8317dc433",
+        "type": "function",
+        "z": "c81e37dab668f210",
+        "name": "test ok",
+        "func": "msg.payload = \"test ok\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 320,
+        "wires": [
+            [
+                "072de13cc5b05774"
+            ]
+        ]
+    },
+    {
+        "id": "bd70efd1fe57064e",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1040,
+        "y": 120,
+        "wires": [
+            [
+                "829bb9989e682ad5"
+            ]
+        ]
+    },
+    {
+        "id": "829bb9989e682ad5",
+        "type": "function",
+        "z": "c81e37dab668f210",
+        "name": "test tgpostnotify",
+        "func": "let tgmsg = \"test tgpostnotify - \" + msg.payload;\nmsg = {};\nmsg.payload = {tgmsg};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 120,
+        "wires": [
+            [
+                "a74c30543ed26022"
+            ]
+        ]
+    },
+    {
+        "id": "a74c30543ed26022",
+        "type": "redis-out",
+        "z": "c81e37dab668f210",
+        "server": "f120eab2.0a60a8",
+        "command": "publish",
+        "name": "",
+        "topic": "tgpost",
+        "obj": true,
+        "x": 1410,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5c99de33117ecae3",
+        "type": "redis-in",
+        "z": "c81e37dab668f210",
+        "server": "f120eab2.0a60a8",
+        "command": "subscribe",
+        "name": "",
+        "topic": "tgpost",
+        "obj": true,
+        "timeout": 0,
+        "x": 1230,
+        "y": 160,
+        "wires": [
+            [
+                "46f633e259e91ef5"
+            ]
+        ]
+    },
+    {
+        "id": "46f633e259e91ef5",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1380,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "95c5b462864b9a94",
+        "type": "http response",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "statusCode": "200",
+        "headers": {
+            "Access-Control-Allow-Origin": "https://ti-agro.ro"
+        },
+        "x": 880,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "ba0c769353428f86",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "nr token",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "74332b1a605c3f63f6537fa601b04f3ae83ec7a73cc41914602e716ebe1ddb52d673ae4d540c80fa36c1daa71cbcb59e6caf2d1a240f7cc28d42af402370a2609c03e0b9f9d3553401b202f3fe6a46962ca5293ef879573c113aefc7816d84a4501e07456cd62960e454d0536cb3dca043a5d4135926e05ea2983c96cb2e78aa",
+        "payloadType": "str",
+        "x": 1080,
+        "y": 240,
+        "wires": [
+            [
+                "2834bce64530272f"
+            ]
+        ]
+    },
+    {
+        "id": "a3657a18c2d1c33c",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1600,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "f350fcf77ae11750",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 900,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0fc02b568418462e",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1560,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "29d478468c88f366",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1600,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "2834bce64530272f",
+        "type": "http request",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://83.69.248.139:1337/api/transactions",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1250,
+        "y": 240,
+        "wires": [
+            [
+                "a70dae4659045d40"
+            ]
+        ]
+    },
+    {
+        "id": "a70dae4659045d40",
+        "type": "json",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1410,
+        "y": 240,
+        "wires": [
+            [
+                "0fc02b568418462e"
+            ]
+        ]
+    },
+    {
+        "id": "f89ff0c13a90c9dc",
+        "type": "exec",
+        "z": "c81e37dab668f210",
+        "command": "curl 'http://83.69.248.139:1337/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://83.69.248.139:1337' --data-binary '{\"query\":\"# Write your query or mutation here\\nquery{\\n  sales{\\n    data{\\n      attributes{\\n        guid\\n        comment\\n        createdAt\\n        client{\\n          data{\\n            attributes{\\n              name\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}\"}' --compressed",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 2690,
+        "y": 480,
+        "wires": [
+            [
+                "6592763f1aa18c40"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "775a813e43ac9e12",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1600,
+        "y": 480,
+        "wires": [
+            [
+                "f89ff0c13a90c9dc"
+            ]
+        ]
+    },
+    {
+        "id": "4bb68221a0f3ce13",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 4120,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "6592763f1aa18c40",
+        "type": "json",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 3830,
+        "y": 460,
+        "wires": [
+            [
+                "4bb68221a0f3ce13"
+            ]
+        ]
+    },
+    {
+        "id": "4fa0d361f66b5605",
+        "type": "exec",
+        "z": "c81e37dab668f210",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 1830,
+        "y": 760,
+        "wires": [
+            [
+                "0ed0a05128ca1bbe"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f23470ca3a0c3918",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "curl 'http://83.69.248.139:1337/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://83.69.248.139:1337' --data-binary '{\"query\":\"# Write your query or mutation here\\nquery {\\n  clients {\\n    data {\\n      attributes {\\n        name\\n        sales {\\n          data {\\n            attributes {\\n              guid\\n              comment\\n              value\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}\\n\"}' --compressed",
+        "payloadType": "str",
+        "x": 1610,
+        "y": 760,
+        "wires": [
+            [
+                "4fa0d361f66b5605"
+            ]
+        ]
+    },
+    {
+        "id": "497a76cb133be4ad",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2260,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "0ed0a05128ca1bbe",
+        "type": "json",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 2010,
+        "y": 740,
+        "wires": [
+            [
+                "497a76cb133be4ad"
+            ]
+        ]
+    },
+    {
+        "id": "a83e8fd525b9c01c",
+        "type": "inject",
+        "z": "c81e37dab668f210",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1860,
+        "y": 900,
+        "wires": [
+            [
+                "82d7b4ba2aae8c88"
+            ]
+        ]
+    },
+    {
+        "id": "ff14a849cb07c075",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2260,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "2660a2ab9497d992",
+        "type": "debug",
+        "z": "c81e37dab668f210",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2260,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "82d7b4ba2aae8c88",
+        "type": "graphql-timeout",
+        "z": "c81e37dab668f210",
+        "name": "clients with sales",
+        "graphql": "048399e73138354b",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "query {\n  clients {\n    data {\n      attributes {\n        name\n        sales {\n          data {\n            attributes {\n              guid\n              comment\n              value\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+        "showDebug": false,
+        "timeout": 20000,
+        "x": 2030,
+        "y": 900,
+        "wires": [
+            [
+                "ff14a849cb07c075"
+            ],
+            [
+                "2660a2ab9497d992"
+            ]
+        ]
+    }
+]

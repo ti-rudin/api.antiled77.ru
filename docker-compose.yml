@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  node-red-core:
+    container_name: node-red-core
+    build:
+      context: .
+      dockerfile: ./nodered-core.Dockerfile
+    env_file: .env
+    ports:
+      - "1880:1880"
+    networks:
+      - antilednet
+    depends_on:
+      - redis
+    volumes:
+      - ./node-red-core:/data 
+    restart: always
+
+volumes:
+  node-red-core:
+
+networks:
+  antilednet: 

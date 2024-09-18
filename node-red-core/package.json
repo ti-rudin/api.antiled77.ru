@@ -1,0 +1,10 @@
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@yousolution/node-red-contrib-you-graphql-timeout": "~1.4.2",
+        "node-red-contrib-telegrambot": "~15.1.9"
+    }
+}
