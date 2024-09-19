@@ -117,7 +117,7 @@
         "type": "function",
         "z": "c76202b81fd3e5fc",
         "name": "function 7",
-        "func": "const messageString = 'Имя: '+msg.payload.name+'\\nТелефон: '+msg.payload.tel;\nmsg.payload = {content:messageString, type: 'message', chatId:1577410293};\n\nreturn msg;",
+        "func": "const messageString = 'Имя: '+msg.payload.name+'\\nТелефон: '+msg.payload.tel;\n\nmsg.payload = {content:messageString, type: 'message', chatId:global.get(\"CHATID_GRADUS\")};\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -168,5 +168,104 @@
             ],
             []
         ]
+    },
+    {
+        "id": "386864252281876b",
+        "type": "inject",
+        "z": "c76202b81fd3e5fc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 100,
+        "wires": [
+            [
+                "90c5561ae255cd07"
+            ]
+        ]
+    },
+    {
+        "id": "90c5561ae255cd07",
+        "type": "function",
+        "z": "c76202b81fd3e5fc",
+        "name": "CHATID_GRADUS",
+        "func": "let CHATID_GRADUS = env.get(\"CHATID_GRADUS\");\nmsg.payload = CHATID_GRADUS;\nglobal.set(\"CHATID_GRADUS\", CHATID_GRADUS);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 100,
+        "wires": [
+            [
+                "5e58aacc9d629713"
+            ]
+        ]
+    },
+    {
+        "id": "5e58aacc9d629713",
+        "type": "debug",
+        "z": "c76202b81fd3e5fc",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "f9a415ecc4b75aea",
+        "type": "telegram receiver",
+        "z": "c76202b81fd3e5fc",
+        "name": "",
+        "bot": "25760fb5d31ad40d",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 240,
+        "y": 560,
+        "wires": [
+            [
+                "c4143adf1548ed8e"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c4143adf1548ed8e",
+        "type": "debug",
+        "z": "c76202b81fd3e5fc",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 560,
+        "wires": []
     }
 ]

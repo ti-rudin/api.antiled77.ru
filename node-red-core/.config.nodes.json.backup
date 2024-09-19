@@ -764,7 +764,7 @@
                     "telegram client receiver",
                     "telegram client sender"
                 ],
-                "enabled": false,
+                "enabled": true,
                 "local": false,
                 "user": false,
                 "module": "node-red-node-telegrambot",
