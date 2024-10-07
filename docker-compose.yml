@@ -2,13 +2,13 @@ version: "3.7"
 
 services:
   node-red-core:
-    container_name: node-red-core
+    container_name: node-red-antiled77
     build:
       context: .
       dockerfile: ./nodered-core.Dockerfile
     env_file: .env
     ports:
-      - "1880:1880"
+      - "1881:1881"
     networks:
       - antilednet
     volumes:
